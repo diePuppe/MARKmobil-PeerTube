@@ -1,0 +1,119 @@
+version: "3.9"
+
+services:
+  # -------------------------------------------------------------------
+  # PeerTube – Main Application
+  # -------------------------------------------------------------------
+  peertube:
+    image: chocobozzz/peertube:production-bookworm
+    container_name: markmobil_peertube
+    restart: unless-stopped
+    # Coolify handles Domain mapping. 
+    # Ensure to set the FQDN in the Coolify UI.
+    environment:
+      - PEERTUBE_DB_USERNAME=${PEERTUBE_DB_USERNAME}
+      - PEERTUBE_DB_PASSWORD=${PEERTUBE_DB_PASSWORD}
+      - PEERTUBE_DB_NAME=${PEERTUBE_DB_NAME}
+      - PEERTUBE_DB_HOSTNAME=postgres
+      - PEERTUBE_REDIS_HOSTNAME=redis
+      - PEERTUBE_WEBSERVER_HOSTNAME=${PEERTUBE_WEBSERVER_HOSTNAME}
+      - PEERTUBE_WEBSERVER_PORT=443
+      - PEERTUBE_WEBSERVER_HTTPS=true
+      - PEERTUBE_SMTP_FROM=${PEERTUBE_SMTP_FROM}
+      - PEERTUBE_SMTP_HOSTNAME=${PEERTUBE_SMTP_HOSTNAME}
+      - PEERTUBE_SMTP_PORT=${PEERTUBE_SMTP_PORT}
+      - PEERTUBE_SMTP_USERNAME=${PEERTUBE_SMTP_USERNAME}
+      - PEERTUBE_SMTP_PASSWORD=${PEERTUBE_SMTP_PASSWORD}
+      - PEERTUBE_SECRET=${PEERTUBE_SECRET}
+      - PEERTUBE_ADMIN_EMAIL=${PEERTUBE_ADMIN_EMAIL}
+    volumes:
+      - peertube_data:/data
+      - ./peertube/production.yaml:/config/production.yaml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # -------------------------------------------------------------------
+  # PostgreSQL 15
+  # -------------------------------------------------------------------
+  postgres:
+    image: postgres:15-alpine
+    container_name: markmobil_postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${PEERTUBE_DB_USERNAME}
+      - POSTGRES_PASSWORD=${PEERTUBE_DB_PASSWORD}
+      - POSTGRES_DB=${PEERTUBE_DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PEERTUBE_DB_USERNAME} -d ${PEERTUBE_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------------
+  # Redis 7
+  # -------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: markmobil_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------------
+  # Plausible Analytics
+  # -------------------------------------------------------------------
+  plausible_db:
+    image: clickhouse/clickhouse-server:23.3-alpine
+    container_name: markmobil_plausible_db
+    restart: unless-stopped
+    volumes:
+      - plausible_clickhouse:/var/lib/clickhouse
+      - ./plausible/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro
+      - ./plausible/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  plausible_postgres:
+    image: postgres:15-alpine
+    container_name: markmobil_plausible_postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${PLAUSIBLE_DB_USERNAME}
+      - POSTGRES_PASSWORD=${PLAUSIBLE_DB_PASSWORD}
+      - POSTGRES_DB=plausible_db
+    volumes:
+      - plausible_postgres:/var/lib/postgresql/data
+
+  plausible:
+    image: ghcr.io/plausible/community-edition:v2.1
+    container_name: markmobil_plausible
+    restart: unless-stopped
+    command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
+    environment:
+      - BASE_URL=https://${PLAUSIBLE_DOMAIN}
+      - SECRET_KEY_BASE=${PLAUSIBLE_SECRET_KEY_BASE}
+      - DATABASE_URL=postgres://${PLAUSIBLE_DB_USERNAME}:${PLAUSIBLE_DB_PASSWORD}@plausible_postgres:5432/plausible_db
+      - CLICKHOUSE_DATABASE_URL=http://plausible_db:8123/plausible_events_db
+      - DISABLE_REGISTRATION=true
+    depends_on:
+      - plausible_db
+      - plausible_postgres
+
+volumes:
+  peertube_data:
+  postgres_data:
+  redis_data:
+  plausible_clickhouse:
+  plausible_postgres:
