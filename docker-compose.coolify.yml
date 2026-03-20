@@ -28,7 +28,7 @@ services:
       - PEERTUBE_ADMIN_EMAIL=${PEERTUBE_ADMIN_EMAIL}
     volumes:
       - peertube_data:/data
-      - ./peertube/production.yaml:/config/production.yaml:ro
+      - peertube_config:/config:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -100,7 +100,14 @@ services:
     image: ghcr.io/plausible/community-edition:v2.1
     container_name: markmobil_plausible
     restart: unless-stopped
-    command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
+    # Wait for ClickHouse and then ensure the database exists before running migrations
+    command: >
+      sh -c "
+        sleep 15 &&
+        /entrypoint.sh db createdb &&
+        /entrypoint.sh db migrate &&
+        /entrypoint.sh run
+      "
     environment:
       - BASE_URL=https://${PLAUSIBLE_DOMAIN}
       - SECRET_KEY_BASE=${PLAUSIBLE_SECRET_KEY_BASE}
@@ -113,6 +120,7 @@ services:
 
 volumes:
   peertube_data:
+  peertube_config:
   postgres_data:
   redis_data:
   plausible_clickhouse:
