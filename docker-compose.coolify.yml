@@ -8,13 +8,8 @@ services:
     image: chocobozzz/peertube:production-bookworm
     container_name: markmobil_peertube
     restart: unless-stopped
-    # Add labels to tell Coolify's proxy (Traefik) to route traffic here
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.markmobil-peertube.rule=Host(`${PEERTUBE_WEBSERVER_HOSTNAME}`)"
-      - "traefik.http.routers.markmobil-peertube.entrypoints=https"
-      - "traefik.http.routers.markmobil-peertube.tls.certresolver=letsencrypt"
-      - "traefik.http.services.markmobil-peertube.loadbalancer.server.port=9000"
+    # Coolify handles Domain mapping. 
+    # Ensure to set the FQDN in the Coolify UI.
     environment:
       - PEERTUBE_DB_USERNAME=${PEERTUBE_DB_USERNAME}
       - PEERTUBE_DB_PASSWORD=${PEERTUBE_DB_PASSWORD}
