@@ -1,0 +1,208 @@
+listen:
+  hostname: '0.0.0.0'
+  port: 9000
+
+webserver:
+  https: true
+  # Set by environment variable PEERTUBE_WEBSERVER_HOSTNAME
+  port: 443
+
+# ==============================================================
+# Database (values injected via environment variables)
+# ==============================================================
+database:
+  hostname: 'postgres'
+  port: 5432
+  ssl: false
+  suffix: ''
+  username: ''   # from env PEERTUBE_DB_USERNAME
+  password: ''   # from env PEERTUBE_DB_PASSWORD
+  name: ''       # from env PEERTUBE_DB_NAME
+
+# ==============================================================
+# Redis
+# ==============================================================
+redis:
+  hostname: 'redis'
+  port: 6379
+
+# ==============================================================
+# SMTP (values injected via environment variables)
+# ==============================================================
+smtp:
+  transport: smtp
+  # hostname / username / password / port from env vars
+  tls: false
+  # disable_starttls: false
+  ca_file: null
+  from_address: ''  # from env PEERTUBE_SMTP_FROM
+  disable_login: false
+
+# ==============================================================
+# Storage – all local, no external object storage
+# CDN-ready: when Bunny.net is added, change object_storage settings
+# and set videos.base_url to the CDN pull-zone URL.
+# ==============================================================
+storage:
+  tmp: '/data/tmp'
+  bin: '/data/bin'
+  avatars: '/data/avatars'
+  videos: '/data/videos'
+  streaming_playlists: '/data/streaming-playlists'
+  redundancy: '/data/redundancy'
+  logs: '/data/logs'
+  previews: '/data/previews'
+  thumbnails: '/data/thumbnails'
+  torrents: '/data/torrents'
+  captions: '/data/captions'
+  cache: '/data/cache'
+  plugins: '/data/plugins'
+  packages: '/data/packages'
+  client_overrides: '/data/client-overrides'
+
+# ==============================================================
+# Log rotation (DSGVO: delete logs after 24h)
+# ==============================================================
+log:
+  level: 'info'
+  # Nginx log rotation is handled by the logrotate job described in README.
+  # PeerTube application logs are written to /data/logs and rotated daily.
+  rotation:
+    enabled: true
+    # Keep only last 1 log file (= ~24 h of logs)
+    max_file_size: 12MB
+    max_files: 1
+
+# ==============================================================
+# Registrations – completely disabled
+# ==============================================================
+signup:
+  enabled: false
+  requires_email_verification: false
+  limit: 0
+  minimum_age: 0
+
+# ==============================================================
+# Instance settings
+# ==============================================================
+instance:
+  name: 'Markmobil'
+  short_description: 'Reise & Politik – Videos ohne Tracking.'
+  description: |
+    Markmobil ist eine datenschutzkonforme VOD-Plattform für Reise- und Politikvideos.
+    Keine Werbung, kein Tracking, kein Social-Media-Datenkrake.
+  terms: |
+    Diese Plattform basiert auf PeerTube (AGPL-3.0).
+    Quellcode: https://github.com/diePuppe/MARKmobil-PeerTube
+
+    Nutzung ohne Registrierung möglich. Keine Kommentare.
+  is_nsfw: false
+  default_nsfw_policy: 'do_not_list'
+  support_email: 'support@your-domain.example.com'
+  business_model: ''
+  languages:
+    - de
+    - en
+
+# ==============================================================
+# User defaults (no public registration, only admin exists)
+# ==============================================================
+user:
+  video_quota: -1           # admin can upload unlimited
+  video_quota_daily: -1
+
+# ==============================================================
+# Video settings
+# ==============================================================
+video:
+  image:
+    intervals: 2
+    size: 1920x1080
+
+# Transcoding (360p, 720p, 1080p)
+transcoding:
+  enabled: true
+  allow_additional_extensions: true
+  allow_audio_files: true
+  threads: 2                # adjust to VPS CPU count
+  concurrency: 1
+  profile: 'default'
+  resolutions:
+    0p: false
+    144p: false
+    240p: false
+    360p: true
+    480p: false
+    720p: true
+    1080p: true
+    1440p: false
+    2160p: false
+  web_videos:
+    enabled: true
+  hls:
+    enabled: true
+
+# Live streaming – disabled for now
+live:
+  enabled: false
+
+# ==============================================================
+# Comments – disabled globally
+# ==============================================================
+video_comment_policy: 'disabled'
+
+# ==============================================================
+# Remote runners / object storage – placeholders for future CDN
+# ==============================================================
+object_storage:
+  enabled: false
+  # When Bunny.net CDN is added later:
+  # endpoint: 'https://storage.bunnycdn.com'
+  # region: 'de'
+  # upload_acl:
+  #   public: 'public-read'
+  # streaming_playlists:
+  #   bucket_name: 'markmobil-hls'
+  #   base_url: 'https://markmobil.b-cdn.net/hls'
+  # web_videos:
+  #   bucket_name: 'markmobil-videos'
+  #   base_url: 'https://markmobil.b-cdn.net/videos'
+
+# ==============================================================
+# Federation – isolated instance, no ActivityPub federation
+# ==============================================================
+federation:
+  videos:
+    federate_unlisted: false
+    # Disable AP federation to keep the instance fully private/closed:
+    # The instance will still serve videos publicly via HTTP,
+    # but won't federate with other PeerTube nodes.
+
+# ==============================================================
+# Search – local only
+# ==============================================================
+search:
+  remote_uri:
+    users: false
+    anonymous: false
+
+# ==============================================================
+# Contact form – disabled (no registration = no contact needed)
+# ==============================================================
+contact_form:
+  enabled: false
+
+# ==============================================================
+# Import – YouTube-DL enabled for admin imports
+# ==============================================================
+import:
+  videos:
+    http:
+      enabled: true
+    torrent:
+      enabled: false
+
+# ==============================================================
+# Custom HTML – injected by the theme plugin
+# The custom CSS in /data/client-overrides/custom.css is loaded automatically.
+# ==============================================================

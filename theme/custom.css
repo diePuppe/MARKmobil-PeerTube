@@ -1,0 +1,348 @@
+/* =================================================================
+   Markmobil – Custom PeerTube Theme
+   Dark Navy / Forest Green / Gold
+   Fonts: Playfair Display (headlines) + Inter (body)
+   ================================================================= */
+
+/* -----------------------------------------------------------------
+   Google Fonts
+   ----------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* -----------------------------------------------------------------
+   CSS Custom Properties (Design Tokens)
+   ----------------------------------------------------------------- */
+:root {
+  /* Primary palette */
+  --mm-navy:         #0d1b2a;
+  --mm-navy-mid:     #142233;
+  --mm-navy-light:   #1e3247;
+  --mm-green:        #1a4a3a;
+  --mm-green-mid:    #205c48;
+  --mm-green-light:  #2e7d5d;
+
+  /* Accent */
+  --mm-gold:         #c9a84c;
+  --mm-gold-light:   #e2c675;
+  --mm-gold-muted:   #a07830;
+
+  /* Neutrals */
+  --mm-white:        #f4f0e8;
+  --mm-gray-100:     #d8d4cc;
+  --mm-gray-300:     #8a8680;
+  --mm-gray-500:     #4a4640;
+  --mm-black:        #050c14;
+
+  /* Fonts */
+  --font-headline:   'Playfair Display', Georgia, serif;
+  --font-body:       'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Radii & shadows */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.45);
+  --shadow-glow: 0 0 16px rgba(201,168,76,0.18);
+}
+
+/* -----------------------------------------------------------------
+   Base reset & body
+   ----------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body,
+.main-col,
+#app-root {
+  background-color: var(--mm-navy) !important;
+  color: var(--mm-white) !important;
+  font-family: var(--font-body) !important;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* -----------------------------------------------------------------
+   World-map background on the homepage hero
+   (SVG inline background – subtle, low-opacity overlay)
+   ----------------------------------------------------------------- */
+my-home my-videos-list:first-of-type,
+.videos-header,
+.homepage-header {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400'%3E%3Crect width='1440' height='400' fill='%230d1b2a'/%3E%3Cellipse cx='720' cy='200' rx='600' ry='170' fill='none' stroke='%231a4a3a' stroke-width='1' opacity='0.5'/%3E%3Cellipse cx='300' cy='200' rx='200' ry='120' fill='none' stroke='%231a4a3a' stroke-width='1' opacity='0.3'/%3E%3Cellipse cx='1100' cy='200' rx='220' ry='130' fill='none' stroke='%231a4a3a' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E"),
+    linear-gradient(160deg, var(--mm-navy) 0%, var(--mm-green) 60%, var(--mm-navy-mid) 100%);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  padding: 3rem 1.5rem 2rem;
+}
+
+/* -----------------------------------------------------------------
+   Typography
+   ----------------------------------------------------------------- */
+h1, h2, h3,
+.title,
+my-video-channel .display-name,
+.video-name,
+.playlist-info .display-name {
+  font-family: var(--font-headline) !important;
+  font-weight: 700;
+  color: var(--mm-white) !important;
+  letter-spacing: 0.01em;
+}
+
+.video-miniature .video-miniature-name {
+  font-family: var(--font-headline) !important;
+  font-size: 1rem !important;
+  color: var(--mm-white) !important;
+}
+
+a, a:visited {
+  color: var(--mm-gold) !important;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--mm-gold-light) !important;
+  text-decoration: underline;
+}
+
+/* -----------------------------------------------------------------
+   Navigation / Header
+   ----------------------------------------------------------------- */
+.header,
+#header,
+my-header,
+nav.navbar {
+  background: linear-gradient(90deg, var(--mm-navy) 0%, var(--mm-navy-mid) 100%) !important;
+  border-bottom: 2px solid var(--mm-gold-muted) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+/* Logo area */
+.header .navbar-brand,
+my-header .navbar-brand {
+  font-family: var(--font-headline) !important;
+  font-size: 1.5rem;
+  color: var(--mm-gold) !important;
+  letter-spacing: 0.05em;
+}
+
+/* Nav links */
+.header .nav-link,
+my-header .nav-link {
+  color: var(--mm-gray-100) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.header .nav-link:hover,
+my-header .nav-link:hover {
+  color: var(--mm-gold) !important;
+}
+
+/* Search input */
+my-search-typeahead input {
+  background: var(--mm-navy-light) !important;
+  border: 1px solid var(--mm-gray-500) !important;
+  color: var(--mm-white) !important;
+  border-radius: var(--radius-sm) !important;
+}
+my-search-typeahead input::placeholder {
+  color: var(--mm-gray-300) !important;
+}
+
+/* -----------------------------------------------------------------
+   Sidebar
+   ----------------------------------------------------------------- */
+.menu-wrapper,
+my-left-menu {
+  background: var(--mm-navy-mid) !important;
+  border-right: 1px solid var(--mm-navy-light) !important;
+}
+
+my-left-menu .menu-item a,
+my-left-menu .menu-category span {
+  color: var(--mm-gray-100) !important;
+}
+my-left-menu .menu-item a:hover,
+my-left-menu .menu-item a.active {
+  color: var(--mm-gold) !important;
+  background: rgba(201,168,76,0.08) !important;
+}
+
+/* -----------------------------------------------------------------
+   Video Miniatures / Cards
+   ----------------------------------------------------------------- */
+.video-miniature {
+  background: var(--mm-navy-mid) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.video-miniature:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--shadow-glow), var(--shadow-card);
+}
+
+.video-miniature .video-miniature-name {
+  padding: 0.6rem 0.8rem 0.2rem;
+}
+
+.video-miniature .video-miniature-date,
+.video-miniature .video-views {
+  color: var(--mm-gray-300) !important;
+  font-size: 0.8rem;
+}
+
+/* Thumbnail duration badge */
+.video-miniature .badge-overlay {
+  background: rgba(13,27,42,0.85) !important;
+  color: var(--mm-gold) !important;
+  font-weight: 600;
+  border-radius: var(--radius-sm) !important;
+}
+
+/* -----------------------------------------------------------------
+   Filter bar (categories & regions)
+   ----------------------------------------------------------------- */
+.videos-header .title-page {
+  color: var(--mm-gold) !important;
+  font-family: var(--font-headline) !important;
+  font-size: 1.4rem;
+  border-bottom: 2px solid var(--mm-gold-muted);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Sort / filter selects */
+my-video-filters-header select,
+.video-sort-filter select {
+  background: var(--mm-navy-light) !important;
+  color: var(--mm-white) !important;
+  border: 1px solid var(--mm-gray-500) !important;
+  border-radius: var(--radius-sm);
+}
+
+/* -----------------------------------------------------------------
+   Buttons & CTAs
+   ----------------------------------------------------------------- */
+.btn-primary,
+.orange-button {
+  background: linear-gradient(135deg, var(--mm-gold-muted) 0%, var(--mm-gold) 100%) !important;
+  color: var(--mm-black) !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-primary:hover,
+.orange-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent !important;
+  color: var(--mm-gold) !important;
+  border: 1px solid var(--mm-gold-muted) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.btn-secondary:hover {
+  background: rgba(201,168,76,0.1) !important;
+}
+
+/* -----------------------------------------------------------------
+   Video Player page
+   ----------------------------------------------------------------- */
+.video-js {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.video-info-name {
+  font-family: var(--font-headline) !important;
+  font-size: 1.6rem !important;
+  color: var(--mm-white) !important;
+}
+
+.video-info-date-views {
+  color: var(--mm-gray-300) !important;
+}
+
+/* Tags */
+.video-attribute .attribute-value a.badge {
+  background: var(--mm-navy-light) !important;
+  color: var(--mm-gold) !important;
+  border: 1px solid var(--mm-gold-muted) !important;
+  border-radius: 999px !important;
+  font-size: 0.78rem;
+}
+
+/* -----------------------------------------------------------------
+   Footer
+   ----------------------------------------------------------------- */
+my-footer,
+footer {
+  background: var(--mm-navy-mid) !important;
+  border-top: 1px solid var(--mm-navy-light) !important;
+  color: var(--mm-gray-300) !important;
+  font-size: 0.85rem;
+  padding: 2rem 1.5rem !important;
+}
+
+/* AGPL notice – inject via instance customization or plugin */
+my-footer::after,
+footer::after {
+  content: 'Markmobil basiert auf PeerTube (AGPL-3.0). Quellcode: github.com/diePuppe/MARKmobil-PeerTube';
+  display: block;
+  margin-top: 1rem;
+  color: var(--mm-gray-500);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--mm-navy-light);
+  padding-top: 0.75rem;
+}
+
+my-footer a,
+footer a {
+  color: var(--mm-gold-muted) !important;
+}
+
+/* -----------------------------------------------------------------
+   Modals & overlays
+   ----------------------------------------------------------------- */
+.modal-content {
+  background: var(--mm-navy-mid) !important;
+  border: 1px solid var(--mm-navy-light) !important;
+  color: var(--mm-white) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--mm-navy-light) !important;
+}
+
+/* -----------------------------------------------------------------
+   Notifications
+   ----------------------------------------------------------------- */
+.toast,
+p-toast .p-toast-message {
+  background: var(--mm-navy-light) !important;
+  color: var(--mm-white) !important;
+  border-left: 4px solid var(--mm-gold) !important;
+}
+
+/* -----------------------------------------------------------------
+   Responsive tweaks
+   ----------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .video-miniature {
+    margin-bottom: 1rem;
+  }
+  my-footer::after,
+  footer::after {
+    font-size: 0.7rem;
+  }
+}

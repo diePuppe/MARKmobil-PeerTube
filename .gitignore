@@ -1,0 +1,17 @@
+# NEVER commit the real .env file!
+.env
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Certbot / SSL – managed on server, not in git
+certbot/
+
+# Local data dirs
+data/
+videos/
