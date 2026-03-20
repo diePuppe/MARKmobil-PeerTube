@@ -8,8 +8,12 @@ services:
     image: chocobozzz/peertube:production-bookworm
     container_name: markmobil_peertube
     restart: unless-stopped
-    # Coolify handles Domain mapping. 
-    # Ensure to set the FQDN in the Coolify UI.
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.markmobil-peertube.rule=Host(`${PEERTUBE_WEBSERVER_HOSTNAME}`)"
+      - "traefik.http.routers.markmobil-peertube.entrypoints=https"
+      - "traefik.http.routers.markmobil-peertube.tls.certresolver=letsencrypt"
+      - "traefik.http.services.markmobil-peertube.loadbalancer.server.port=9000"
     environment:
       - PEERTUBE_DB_USERNAME=${PEERTUBE_DB_USERNAME}
       - PEERTUBE_DB_PASSWORD=${PEERTUBE_DB_PASSWORD}
@@ -34,6 +38,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    networks:
+      - coolify
+      - default
 
   # -------------------------------------------------------------------
   # PostgreSQL 15
@@ -100,6 +107,12 @@ services:
     image: ghcr.io/plausible/community-edition:v2.1
     container_name: markmobil_plausible
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.markmobil-plausible.rule=Host(`${PLAUSIBLE_DOMAIN}`)"
+      - "traefik.http.routers.markmobil-plausible.entrypoints=https"
+      - "traefik.http.routers.markmobil-plausible.tls.certresolver=letsencrypt"
+      - "traefik.http.services.markmobil-plausible.loadbalancer.server.port=8000"
     # Wait for ClickHouse and then ensure the database exists before running migrations
     command: >
       sh -c "
@@ -117,6 +130,9 @@ services:
     depends_on:
       - plausible_db
       - plausible_postgres
+    networks:
+      - coolify
+      - default
 
 volumes:
   peertube_data:
@@ -125,3 +141,7 @@ volumes:
   redis_data:
   plausible_clickhouse:
   plausible_postgres:
+
+networks:
+  coolify:
+    external: true
