@@ -18,8 +18,8 @@ services:
       - PEERTUBE_DB_USERNAME=${PEERTUBE_DB_USERNAME}
       - PEERTUBE_DB_PASSWORD=${PEERTUBE_DB_PASSWORD}
       - PEERTUBE_DB_NAME=${PEERTUBE_DB_NAME}
-      - PEERTUBE_DB_HOSTNAME=postgres
-      - PEERTUBE_REDIS_HOSTNAME=redis
+      - PEERTUBE_DB_HOSTNAME=markmobil_postgres
+      - PEERTUBE_REDIS_HOSTNAME=markmobil_redis
       - PEERTUBE_WEBSERVER_HOSTNAME=${PEERTUBE_WEBSERVER_HOSTNAME}
       - PEERTUBE_WEBSERVER_PORT=443
       - PEERTUBE_WEBSERVER_HTTPS=true
@@ -124,8 +124,8 @@ services:
     environment:
       - BASE_URL=https://${PLAUSIBLE_DOMAIN}
       - SECRET_KEY_BASE=${PLAUSIBLE_SECRET_KEY_BASE}
-      - DATABASE_URL=postgres://${PLAUSIBLE_DB_USERNAME}:${PLAUSIBLE_DB_PASSWORD}@plausible_postgres:5432/plausible_db
-      - CLICKHOUSE_DATABASE_URL=http://plausible_db:8123/plausible_events_db
+      - DATABASE_URL=postgres://${PLAUSIBLE_DB_USERNAME}:${PLAUSIBLE_DB_PASSWORD}@markmobil_plausible_postgres:5432/plausible_db
+      - CLICKHOUSE_DATABASE_URL=http://markmobil_plausible_db:8123/plausible_events_db
       - DISABLE_REGISTRATION=true
     depends_on:
       - plausible_db
