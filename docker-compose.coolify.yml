@@ -10,6 +10,13 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
+      # HTTP Router and Redirect
+      - "traefik.http.routers.markmobil-peertube-http.rule=Host(`${PEERTUBE_WEBSERVER_HOSTNAME}`)"
+      - "traefik.http.routers.markmobil-peertube-http.entrypoints=http"
+      - "traefik.http.routers.markmobil-peertube-http.middlewares=markmobil-peertube-redirect"
+      - "traefik.http.middlewares.markmobil-peertube-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.markmobil-peertube-redirect.redirectscheme.permanent=true"
+      # HTTPS Router
       - "traefik.http.routers.markmobil-peertube.rule=Host(`${PEERTUBE_WEBSERVER_HOSTNAME}`)"
       - "traefik.http.routers.markmobil-peertube.entrypoints=https"
       - "traefik.http.routers.markmobil-peertube.tls.certresolver=letsencrypt"
@@ -23,6 +30,7 @@ services:
       - PEERTUBE_WEBSERVER_HOSTNAME=${PEERTUBE_WEBSERVER_HOSTNAME}
       - PEERTUBE_WEBSERVER_PORT=443
       - PEERTUBE_WEBSERVER_HTTPS=true
+      - PEERTUBE_TRUST_PROXY=["127.0.0.1", "loopback", "172.16.0.0/12", "192.168.0.0/16", "10.0.0.0/8"]
       - PEERTUBE_SMTP_FROM=${PEERTUBE_SMTP_FROM}
       - PEERTUBE_SMTP_HOSTNAME=${PEERTUBE_SMTP_HOSTNAME}
       - PEERTUBE_SMTP_PORT=${PEERTUBE_SMTP_PORT}
@@ -109,6 +117,13 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
+      # HTTP Router and Redirect
+      - "traefik.http.routers.markmobil-plausible-http.rule=Host(`${PLAUSIBLE_DOMAIN}`)"
+      - "traefik.http.routers.markmobil-plausible-http.entrypoints=http"
+      - "traefik.http.routers.markmobil-plausible-http.middlewares=markmobil-plausible-redirect"
+      - "traefik.http.middlewares.markmobil-plausible-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.markmobil-plausible-redirect.redirectscheme.permanent=true"
+      # HTTPS Router
       - "traefik.http.routers.markmobil-plausible.rule=Host(`${PLAUSIBLE_DOMAIN}`)"
       - "traefik.http.routers.markmobil-plausible.entrypoints=https"
       - "traefik.http.routers.markmobil-plausible.tls.certresolver=letsencrypt"
