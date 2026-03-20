@@ -105,12 +105,6 @@ services:
     image: ghcr.io/plausible/community-edition:v2.1
     container_name: markmobil_plausible
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.markmobil-plausible.rule=Host(`${PLAUSIBLE_DOMAIN}`)"
-      - "traefik.http.routers.markmobil-plausible.entrypoints=https"
-      - "traefik.http.routers.markmobil-plausible.tls.certresolver=letsencrypt"
-      - "traefik.http.services.markmobil-plausible.loadbalancer.server.port=8000"
     # Wait for ClickHouse and then ensure the database exists before running migrations
     command: >
       sh -c "
