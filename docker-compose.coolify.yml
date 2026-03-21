@@ -88,6 +88,8 @@ services:
   plausible_db:
     image: clickhouse/clickhouse-server:23.3-alpine
     restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
     volumes:
       - plausible_clickhouse:/var/lib/clickhouse
       - ./plausible/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro
