@@ -1,0 +1,83 @@
+<!-- ================================================================
+     MARKmobil – Startseiten-Banner
+     Einfügen unter: Administration → Konfiguration → Erweitert → Startseiten-Inhalt
+     Design: aligned with markmobil.web-labz.info
+     ================================================================ -->
+<style>
+  .mm-hero {
+    position: relative;
+    background-color: #0A0F1E;
+    background-image:
+      radial-gradient(ellipse at 70% 0%,   rgba(26,43,95,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse at 5%  90%,  rgba(26,43,95,0.35) 0%, transparent 45%);
+    border-bottom: 1px solid #16213A;
+    padding: 4rem 2.5rem 3.5rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  /* Subtle bokeh spheres in the background */
+  .mm-hero::before,
+  .mm-hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(22,33,58,0.6);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .mm-hero::before {
+    width: 400px; height: 400px;
+    top: -100px; right: 5%;
+  }
+  .mm-hero::after {
+    width: 280px; height: 280px;
+    bottom: -80px; left: 55%;
+  }
+
+  .mm-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+  }
+
+  .mm-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 700;
+    color: #E8EAF0;
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  .mm-hero h1 .highlight {
+    color: #D4B03A;
+  }
+
+  .mm-hero p {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.05rem;
+    color: #8A9AB8;
+    max-width: 520px;
+    margin: 0;
+    line-height: 1.75;
+  }
+
+  .mm-hero-divider {
+    width: 48px;
+    height: 2px;
+    background: #D4B03A;
+    margin: 1.75rem 0 0;
+    border-radius: 2px;
+    opacity: 0.8;
+  }
+</style>
+
+<div class="mm-hero">
+  <div class="mm-hero-content">
+    <h1>Reise &amp; <span class="highlight">Politik</span></h1>
+    <p>Reportagen, Reiseberichte und politische Analysen aus aller Welt. Ohne Werbung, ohne Tracking, ohne Algorithmus.</p>
+    <div class="mm-hero-divider"></div>
+  </div>
+</div>

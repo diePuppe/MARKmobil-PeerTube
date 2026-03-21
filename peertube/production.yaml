@@ -98,7 +98,7 @@ instance:
     Nutzung ohne Registrierung möglich. Keine Kommentare.
   is_nsfw: false
   default_nsfw_policy: 'do_not_list'
-  support_email: 'support@your-domain.example.com'
+  support_email: ''  # Hier eigene Support-E-Mail eintragen, z.B. 'info@markmobil.de'
   business_model: ''
   languages:
     - de

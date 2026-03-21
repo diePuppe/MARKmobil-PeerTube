@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="220" height="60">
+  <!-- Globe icon in gold -->
+  <circle cx="28" cy="30" r="18" fill="none" stroke="#D4B03A" stroke-width="1.5"/>
+  <ellipse cx="28" cy="30" rx="8" ry="18" fill="none" stroke="#D4B03A" stroke-width="1.5"/>
+  <line x1="10" y1="30" x2="46" y2="30" stroke="#D4B03A" stroke-width="1.5"/>
+  <line x1="12" y1="20" x2="44" y2="20" stroke="#D4B03A" stroke-width="1"/>
+  <line x1="12" y1="40" x2="44" y2="40" stroke="#D4B03A" stroke-width="1"/>
+  <!-- Wordmark: MARK in gold, MOBIL in light gray -->
+  <text x="56" y="36"
+    font-family="'Playfair Display', Georgia, serif"
+    font-size="22"
+    font-weight="700"
+    fill="#D4B03A"
+    letter-spacing="0.04em">MARK</text>
+  <text x="118" y="36"
+    font-family="'Playfair Display', Georgia, serif"
+    font-size="22"
+    font-weight="700"
+    fill="#E8EAF0"
+    letter-spacing="0.04em">MOBIL</text>
+</svg>

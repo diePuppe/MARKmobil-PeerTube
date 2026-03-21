@@ -1,6 +1,6 @@
 /* =================================================================
    Markmobil – Custom PeerTube Theme
-   Dark Navy / Forest Green / Gold
+   Midnight Blue / Gold  (aligned with markmobil.web-labz.info)
    Fonts: Playfair Display (headlines) + Inter (body)
    ================================================================= */
 
@@ -13,36 +13,34 @@
    CSS Custom Properties (Design Tokens)
    ----------------------------------------------------------------- */
 :root {
-  /* Primary palette */
-  --mm-navy:         #0d1b2a;
-  --mm-navy-mid:     #142233;
-  --mm-navy-light:   #1e3247;
-  --mm-green:        #1a4a3a;
-  --mm-green-mid:    #205c48;
-  --mm-green-light:  #2e7d5d;
+  /* Primary palette — exact match to markmobil.web-labz.info */
+  --mm-navy:        #0A0F1E;   /* deepest background */
+  --mm-navy-mid:    #0E1628;   /* cards / sidebar */
+  --mm-navy-light:  #16213A;   /* borders / subtle surfaces */
+  --mm-navy-glow:   #1A2B5F;   /* blue vignette highlight */
 
   /* Accent */
-  --mm-gold:         #c9a84c;
-  --mm-gold-light:   #e2c675;
-  --mm-gold-muted:   #a07830;
+  --mm-gold:        #D4B03A;   /* primary gold */
+  --mm-gold-light:  #E8C94E;   /* hover gold */
+  --mm-gold-muted:  #B09028;   /* borders / inactive */
 
   /* Neutrals */
-  --mm-white:        #f4f0e8;
-  --mm-gray-100:     #d8d4cc;
-  --mm-gray-300:     #8a8680;
-  --mm-gray-500:     #4a4640;
-  --mm-black:        #050c14;
+  --mm-white:       #E8EAF0;   /* primary text */
+  --mm-gray-100:    #8A9AB8;   /* nav links / secondary text */
+  --mm-gray-300:    #5A6A88;   /* muted info */
+  --mm-gray-500:    #2A3A58;   /* disabled / thin dividers */
+  --mm-black:       #050810;
 
   /* Fonts */
-  --font-headline:   'Playfair Display', Georgia, serif;
-  --font-body:       'Inter', system-ui, -apple-system, sans-serif;
+  --font-headline:  'Playfair Display', Georgia, serif;
+  --font-body:      'Inter', system-ui, -apple-system, sans-serif;
 
   /* Radii & shadows */
   --radius-sm:   4px;
   --radius-md:   8px;
   --radius-lg:   16px;
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.45);
-  --shadow-glow: 0 0 16px rgba(201,168,76,0.18);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.55);
+  --shadow-glow: 0 0 20px rgba(212,176,58,0.15);
 }
 
 /* -----------------------------------------------------------------
@@ -62,19 +60,32 @@ body,
   line-height: 1.65;
 }
 
+/* Blue edge-vignette — signature effect of markmobil.web-labz.info */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at top left,    rgba(26,43,95,0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at top right,   rgba(26,43,95,0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(26,43,95,0.30) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right,rgba(26,43,95,0.30) 0%, transparent 50%);
+}
+
 /* -----------------------------------------------------------------
-   World-map background on the homepage hero
-   (SVG inline background – subtle, low-opacity overlay)
+   Hero background on homepage
    ----------------------------------------------------------------- */
 my-home my-videos-list:first-of-type,
 .videos-header,
 .homepage-header {
+  background-color: var(--mm-navy);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400'%3E%3Crect width='1440' height='400' fill='%230d1b2a'/%3E%3Cellipse cx='720' cy='200' rx='600' ry='170' fill='none' stroke='%231a4a3a' stroke-width='1' opacity='0.5'/%3E%3Cellipse cx='300' cy='200' rx='200' ry='120' fill='none' stroke='%231a4a3a' stroke-width='1' opacity='0.3'/%3E%3Cellipse cx='1100' cy='200' rx='220' ry='130' fill='none' stroke='%231a4a3a' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E"),
-    linear-gradient(160deg, var(--mm-navy) 0%, var(--mm-green) 60%, var(--mm-navy-mid) 100%);
-  background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
+    radial-gradient(ellipse at 80% 20%, rgba(26,43,95,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 80%, rgba(26,43,95,0.3) 0%, transparent 40%);
+  background-size: cover;
+  background-position: center;
   padding: 3rem 1.5rem 2rem;
 }
 
@@ -115,9 +126,9 @@ a:hover {
 #header,
 my-header,
 nav.navbar {
-  background: linear-gradient(90deg, var(--mm-navy) 0%, var(--mm-navy-mid) 100%) !important;
-  border-bottom: 2px solid var(--mm-gold-muted) !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  background: var(--mm-navy) !important;
+  border-bottom: 1px solid var(--mm-navy-light) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.6);
 }
 
 /* Logo area */
@@ -134,17 +145,18 @@ my-header .navbar-brand {
 my-header .nav-link {
   color: var(--mm-gray-100) !important;
   font-weight: 500;
+  font-size: 0.9rem;
   transition: color 0.2s;
 }
 .header .nav-link:hover,
 my-header .nav-link:hover {
-  color: var(--mm-gold) !important;
+  color: var(--mm-white) !important;
 }
 
 /* Search input */
 my-search-typeahead input {
-  background: var(--mm-navy-light) !important;
-  border: 1px solid var(--mm-gray-500) !important;
+  background: var(--mm-navy-mid) !important;
+  border: 1px solid var(--mm-navy-light) !important;
   color: var(--mm-white) !important;
   border-radius: var(--radius-sm) !important;
 }
@@ -168,7 +180,7 @@ my-left-menu .menu-category span {
 my-left-menu .menu-item a:hover,
 my-left-menu .menu-item a.active {
   color: var(--mm-gold) !important;
-  background: rgba(201,168,76,0.08) !important;
+  background: rgba(212,176,58,0.07) !important;
 }
 
 /* -----------------------------------------------------------------
@@ -198,7 +210,7 @@ my-left-menu .menu-item a.active {
 
 /* Thumbnail duration badge */
 .video-miniature .badge-overlay {
-  background: rgba(13,27,42,0.85) !important;
+  background: rgba(10,15,30,0.85) !important;
   color: var(--mm-gold) !important;
   font-weight: 600;
   border-radius: var(--radius-sm) !important;
@@ -208,10 +220,10 @@ my-left-menu .menu-item a.active {
    Filter bar (categories & regions)
    ----------------------------------------------------------------- */
 .videos-header .title-page {
-  color: var(--mm-gold) !important;
+  color: var(--mm-white) !important;
   font-family: var(--font-headline) !important;
   font-size: 1.4rem;
-  border-bottom: 2px solid var(--mm-gold-muted);
+  border-bottom: 1px solid var(--mm-navy-light);
   padding-bottom: 0.5rem;
   margin-bottom: 1.2rem;
 }
@@ -219,9 +231,9 @@ my-left-menu .menu-item a.active {
 /* Sort / filter selects */
 my-video-filters-header select,
 .video-sort-filter select {
-  background: var(--mm-navy-light) !important;
+  background: var(--mm-navy-mid) !important;
   color: var(--mm-white) !important;
-  border: 1px solid var(--mm-gray-500) !important;
+  border: 1px solid var(--mm-navy-light) !important;
   border-radius: var(--radius-sm);
 }
 
@@ -251,7 +263,7 @@ my-video-filters-header select,
   border-radius: var(--radius-sm) !important;
 }
 .btn-secondary:hover {
-  background: rgba(201,168,76,0.1) !important;
+  background: rgba(212,176,58,0.08) !important;
 }
 
 /* -----------------------------------------------------------------
@@ -274,7 +286,7 @@ my-video-filters-header select,
 
 /* Tags */
 .video-attribute .attribute-value a.badge {
-  background: var(--mm-navy-light) !important;
+  background: var(--mm-navy-mid) !important;
   color: var(--mm-gold) !important;
   border: 1px solid var(--mm-gold-muted) !important;
   border-radius: 999px !important;
@@ -288,18 +300,18 @@ my-footer,
 footer {
   background: var(--mm-navy-mid) !important;
   border-top: 1px solid var(--mm-navy-light) !important;
-  color: var(--mm-gray-300) !important;
+  color: var(--mm-gray-100) !important;
   font-size: 0.85rem;
   padding: 2rem 1.5rem !important;
 }
 
-/* AGPL notice – inject via instance customization or plugin */
+/* AGPL notice */
 my-footer::after,
 footer::after {
   content: 'Markmobil basiert auf PeerTube (AGPL-3.0). Quellcode: github.com/diePuppe/MARKmobil-PeerTube';
   display: block;
   margin-top: 1rem;
-  color: var(--mm-gray-500);
+  color: var(--mm-gray-300);
   font-size: 0.78rem;
   border-top: 1px solid var(--mm-navy-light);
   padding-top: 0.75rem;
@@ -308,6 +320,10 @@ footer::after {
 my-footer a,
 footer a {
   color: var(--mm-gold-muted) !important;
+}
+my-footer a:hover,
+footer a:hover {
+  color: var(--mm-gold) !important;
 }
 
 /* -----------------------------------------------------------------
@@ -329,9 +345,80 @@ footer a {
    ----------------------------------------------------------------- */
 .toast,
 p-toast .p-toast-message {
-  background: var(--mm-navy-light) !important;
+  background: var(--mm-navy-mid) !important;
   color: var(--mm-white) !important;
   border-left: 4px solid var(--mm-gold) !important;
+}
+
+/* -----------------------------------------------------------------
+   Single-Creator: Social & Multi-User-UI ausblenden
+   ----------------------------------------------------------------- */
+
+/* Subscribe / Follow Buttons */
+my-subscribe-button,
+.subscribe-button,
+my-remote-subscribe,
+.follow-button {
+  display: none !important;
+}
+
+/* Share & Embed Buttons */
+my-video-share,
+.video-share,
+.share-button,
+.video-actions-dropdown .action-button-share,
+button[title="Share"],
+button[title="Teilen"] {
+  display: none !important;
+}
+
+/* Notification Bell */
+my-notification-bell,
+.notification-bell,
+.notifications-button {
+  display: none !important;
+}
+
+/* Sidebar: Abonnements & Bibliothek */
+my-left-menu .section-title:has(+ ul .subscriptions),
+my-left-menu .menu-category:has(.subscriptions),
+my-left-menu .menu-item a[routerlink*="subscriptions"],
+my-left-menu .menu-item a[routerlink*="/library"],
+my-left-menu .menu-item a[href*="subscriptions"] {
+  display: none !important;
+}
+
+/* Report Button */
+my-video-report,
+.report-button,
+.action-button-report {
+  display: none !important;
+}
+
+/* Kommentar-Bereich */
+my-video-comments,
+.video-comments,
+.comment-section {
+  display: none !important;
+}
+
+/* "Playlist hinzufügen" Button */
+.action-button-save,
+my-video-actions-dropdown .action-button:has([title*="playlist"]),
+my-video-actions-dropdown .action-button:has([title*="Playlist"]) {
+  display: none !important;
+}
+
+/* Upload-Button für Besucher */
+my-header .upload-button:not(.admin),
+my-header a[routerlink*="/videos/upload"]:not([ng-reflect-router-link*="admin"]) {
+  display: none !important;
+}
+
+/* Federation-Hinweis */
+my-search-typeahead .search-global-warning,
+.remote-search-info {
+  display: none !important;
 }
 
 /* -----------------------------------------------------------------
