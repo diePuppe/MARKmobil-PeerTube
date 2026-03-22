@@ -27,7 +27,7 @@ services:
     volumes:
       - peertube_data:/data
       - ./peertube/production.yaml:/config/production.yaml:ro
-      - ./theme:/data/client-overrides:ro
+      - ./theme:/data/client-overrides
     depends_on:
       postgres:
         condition: service_healthy
