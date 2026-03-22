@@ -39,7 +39,7 @@ services:
       - PEERTUBE_ADMIN_EMAIL=${PEERTUBE_ADMIN_EMAIL}
     volumes:
       - peertube_data:/data
-      - peertube_config:/config:ro
+      - peertube_config:/config
       - ./theme:/data/client-overrides:ro
     depends_on:
       postgres:
